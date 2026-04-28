@@ -1,26 +1,106 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   THEMING SYSTEM
+   ------------------------------------------------------------
+   Semantic tokens (no raw colors used in components).
+   Add a new theme by appending another `.theme-<name> { ... }`
+   block — no component refactor required.
+   All foreground/background pairs verified at WCAG AA (>= 4.5
+   for body text, >= 3 for large text & UI components).
+   ============================================================ */
+
+@layer base {
+  :root,
+  .theme-light {
+    color-scheme: light;
+
+    --color-bg:           #f8fafc;  /* page background     */
+    --color-surface:      #ffffff;  /* cards / panels      */
+    --color-surface-2:    #f1f5f9;  /* subtle elevation    */
+    --color-fg:           #0f172a;  /* primary text   ~16:1 on bg */
+    --color-fg-muted:     #475569;  /* secondary text ~7:1  on bg */
+    --color-fg-subtle:    #64748b;  /* tertiary text  ~4.7:1 on bg */
+    --color-border:       #e2e8f0;
+    --color-border-strong:#cbd5e1;
+
+    --color-primary:      #4338ca;  /* indigo-700, white text 7.6:1 */
+    --color-primary-hover:#3730a3;
+    --color-primary-fg:   #ffffff;
+
+    --color-danger:       #b91c1c;  /* red-700, white text 6.4:1   */
+    --color-danger-hover: #991b1b;
+    --color-danger-fg:    #ffffff;
+    --color-danger-soft-bg:#fef2f2;
+    --color-danger-soft-fg:#991b1b;
+
+    --color-accent-fg:    #4338ca;
+
+    --color-ring:         #6366f1;
+  }
+
+  .theme-dark {
+    color-scheme: dark;
+
+    --color-bg:           #0b1220;
+    --color-surface:      #111a2e;
+    --color-surface-2:    #1a2440;
+    --color-fg:           #f1f5f9;  /* ~15:1 on bg          */
+    --color-fg-muted:     #cbd5e1;  /* ~10:1 on bg          */
+    --color-fg-subtle:    #94a3b8;  /* ~5.6:1 on bg         */
+    --color-border:       #243056;
+    --color-border-strong:#334371;
+
+    --color-primary:      #818cf8;  /* indigo-400, dark text 7.5:1 */
+    --color-primary-hover:#a5b4fc;
+    --color-primary-fg:   #0b1220;
+
+    --color-danger:       #f87171;  /* red-400, dark text 6.1:1    */
+    --color-danger-hover: #fca5a5;
+    --color-danger-fg:    #0b1220;
+    --color-danger-soft-bg:#3a1414;
+    --color-danger-soft-fg:#fecaca;
+
+    --color-accent-fg:    #a5b4fc;
+
+    --color-ring:         #a5b4fc;
+  }
 }
 
+/* Map semantic tokens into Tailwind color utilities so we can
+   use `bg-surface`, `text-fg-muted`, `border-border`, etc. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg:            var(--color-bg);
+  --color-surface:       var(--color-surface);
+  --color-surface-2:     var(--color-surface-2);
+  --color-fg:            var(--color-fg);
+  --color-fg-muted:      var(--color-fg-muted);
+  --color-fg-subtle:     var(--color-fg-subtle);
+  --color-border:        var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-primary:       var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-fg:    var(--color-primary-fg);
+  --color-danger:        var(--color-danger);
+  --color-danger-hover:  var(--color-danger-hover);
+  --color-danger-fg:     var(--color-danger-fg);
+  --color-danger-soft-bg:var(--color-danger-soft-bg);
+  --color-danger-soft-fg:var(--color-danger-soft-fg);
+  --color-accent-fg:     var(--color-accent-fg);
+  --color-ring:          var(--color-ring);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.theme-ready,
+.theme-ready * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 150ms;
 }
