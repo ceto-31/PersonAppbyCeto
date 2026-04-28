@@ -32,6 +32,8 @@ export default function PersonManager() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<Person | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -97,10 +99,20 @@ export default function PersonManager() {
     }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm("Delete this person?")) return;
-    const res = await fetch(`/api/persons/${id}`, { method: "DELETE" });
-    if (res.ok) await load();
+  async function confirmDelete() {
+    if (!pendingDelete) return;
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/persons/${pendingDelete.id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setPendingDelete(null);
+        await load();
+      }
+    } finally {
+      setDeleting(false);
+    }
   }
 
   return (
@@ -243,7 +255,7 @@ export default function PersonManager() {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(p.id)}
+                      onClick={() => setPendingDelete(p)}
                       className="text-xs px-3 py-1 rounded border border-danger text-danger hover:bg-danger-soft-bg"
                     >
                       Delete
@@ -255,6 +267,71 @@ export default function PersonManager() {
           </ul>
         )}
       </section>
+
+      {pendingDelete && (
+        <ConfirmDialog
+          title="Delete person?"
+          message={`This will permanently remove ${pendingDelete.firstName} ${pendingDelete.lastName}.`}
+          confirmLabel={deleting ? "Deleting..." : "Delete"}
+          disabled={deleting}
+          onConfirm={confirmDelete}
+          onCancel={() => (deleting ? null : setPendingDelete(null))}
+        />
+      )}
+    </div>
+  );
+}
+
+function ConfirmDialog({
+  title,
+  message,
+  confirmLabel,
+  disabled,
+  onConfirm,
+  onCancel,
+}: {
+  title: string;
+  message: string;
+  confirmLabel: string;
+  disabled?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      onClick={onCancel}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-surface border border-border rounded-xl shadow-lg w-full max-w-sm p-5"
+      >
+        <h3 id="confirm-title" className="text-base font-semibold text-fg">
+          {title}
+        </h3>
+        <p className="text-sm text-fg-muted mt-2">{message}</p>
+        <div className="flex gap-2 justify-end mt-5">
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={disabled}
+            className="px-4 py-2 text-sm border border-border-strong text-fg rounded-md hover:bg-surface-2 disabled:opacity-60"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={disabled}
+            className="px-4 py-2 text-sm bg-danger hover:bg-danger-hover text-danger-fg rounded-md disabled:opacity-60"
+          >
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
