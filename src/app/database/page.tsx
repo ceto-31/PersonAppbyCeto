@@ -33,8 +33,8 @@ const FIELDS: Array<{
 export default function DatabasePage() {
   return (
     <div>
-      <h1 className="text-3xl font-bold text-slate-900">Database</h1>
-      <p className="text-slate-600 mt-2 max-w-2xl">
+      <h1 className="text-3xl font-bold text-fg">Database</h1>
+      <p className="text-fg-muted mt-2 max-w-2xl">
         This app uses <strong>Prisma ORM</strong> with a hosted{" "}
         <strong>PostgreSQL</strong> database. The schema is the single source
         of truth — Prisma generates a fully typed client used by every API
@@ -42,21 +42,17 @@ export default function DatabasePage() {
       </p>
 
       <section className="mt-8">
-        <h2 className="text-lg font-semibold text-slate-900 mb-2">
-          Prisma schema
-        </h2>
-        <pre className="bg-slate-900 text-slate-100 text-xs sm:text-sm rounded-lg p-4 overflow-x-auto">
+        <h2 className="text-lg font-semibold text-fg mb-2">Prisma schema</h2>
+        <pre className="bg-surface-2 text-fg text-xs sm:text-sm rounded-lg p-4 overflow-x-auto border border-border">
           {SCHEMA}
         </pre>
       </section>
 
       <section className="mt-8">
-        <h2 className="text-lg font-semibold text-slate-900 mb-2">
-          Person fields
-        </h2>
-        <div className="overflow-x-auto bg-white border border-slate-200 rounded-xl">
+        <h2 className="text-lg font-semibold text-fg mb-2">Person fields</h2>
+        <div className="overflow-x-auto bg-surface border border-border rounded-xl">
           <table className="min-w-full text-sm">
-            <thead className="bg-slate-100 text-slate-700">
+            <thead className="bg-surface-2 text-fg-muted">
               <tr>
                 <th className="text-left px-4 py-2 font-medium">Field</th>
                 <th className="text-left px-4 py-2 font-medium">Type</th>
@@ -65,14 +61,12 @@ export default function DatabasePage() {
             </thead>
             <tbody>
               {FIELDS.map((f) => (
-                <tr key={f.name} className="border-t border-slate-200">
-                  <td className="px-4 py-2 font-mono text-slate-900">
-                    {f.name}
-                  </td>
-                  <td className="px-4 py-2 font-mono text-slate-700">
+                <tr key={f.name} className="border-t border-border">
+                  <td className="px-4 py-2 font-mono text-fg">{f.name}</td>
+                  <td className="px-4 py-2 font-mono text-fg-muted">
                     {f.type}
                   </td>
-                  <td className="px-4 py-2 text-slate-600">{f.notes}</td>
+                  <td className="px-4 py-2 text-fg-muted">{f.notes}</td>
                 </tr>
               ))}
             </tbody>
@@ -104,9 +98,9 @@ export default function DatabasePage() {
 
 function Card({ title, body }: { title: string; body: string }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5">
-      <h3 className="font-semibold text-slate-900">{title}</h3>
-      <p className="text-sm text-slate-600 mt-1">{body}</p>
+    <div className="bg-surface border border-border rounded-xl p-5">
+      <h3 className="font-semibold text-fg">{title}</h3>
+      <p className="text-sm text-fg-muted mt-1">{body}</p>
     </div>
   );
 }
