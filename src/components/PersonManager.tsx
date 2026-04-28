@@ -105,8 +105,8 @@ export default function PersonManager() {
 
   return (
     <div className="grid lg:grid-cols-5 gap-6">
-      <section className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-5 h-fit">
-        <h2 className="text-lg font-semibold text-slate-900 mb-4">
+      <section className="lg:col-span-2 bg-surface rounded-xl shadow-sm border border-border p-5 h-fit">
+        <h2 className="text-lg font-semibold text-fg mb-4">
           {editingId ? "Edit Person" : "Add New Person"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -150,18 +150,18 @@ export default function PersonManager() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-600 mb-1">
+            <label className="block text-xs font-medium text-fg-muted mb-1">
               Bio
             </label>
             <textarea
               value={form.bio}
               onChange={(e) => setForm({ ...form, bio: e.target.value })}
               rows={3}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-md border border-border bg-surface text-fg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2">
+            <p className="text-sm text-danger-soft-fg bg-danger-soft-bg border border-border rounded p-2">
               {error}
             </p>
           )}
@@ -169,7 +169,7 @@ export default function PersonManager() {
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-sm font-medium px-4 py-2 rounded-md transition"
+              className="flex-1 bg-primary hover:bg-primary-hover disabled:opacity-60 text-primary-fg text-sm font-medium px-4 py-2 rounded-md transition"
             >
               {submitting
                 ? "Saving..."
@@ -181,7 +181,7 @@ export default function PersonManager() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-4 py-2 text-sm border border-slate-300 rounded-md hover:bg-slate-50"
+                className="px-4 py-2 text-sm border border-border-strong text-fg rounded-md hover:bg-surface-2"
               >
                 Cancel
               </button>
@@ -190,22 +190,22 @@ export default function PersonManager() {
         </form>
       </section>
 
-      <section className="lg:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+      <section className="lg:col-span-3 bg-surface rounded-xl shadow-sm border border-border p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-900">
+          <h2 className="text-lg font-semibold text-fg">
             People ({people.length})
           </h2>
           <button
             onClick={load}
-            className="text-xs text-indigo-600 hover:underline"
+            className="text-xs text-accent-fg hover:underline"
           >
             Refresh
           </button>
         </div>
         {loading ? (
-          <p className="text-sm text-slate-500">Loading...</p>
+          <p className="text-sm text-fg-subtle">Loading...</p>
         ) : people.length === 0 ? (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-fg-subtle">
             No people yet. Add your first one.
           </p>
         ) : (
@@ -213,15 +213,15 @@ export default function PersonManager() {
             {people.map((p) => (
               <li
                 key={p.id}
-                className="border border-slate-200 rounded-lg p-3 hover:border-indigo-300 transition"
+                className="border border-border rounded-lg p-3 hover:border-border-strong transition"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h3 className="font-medium text-slate-900 truncate">
+                    <h3 className="font-medium text-fg truncate">
                       {p.firstName} {p.lastName}
                     </h3>
-                    <p className="text-xs text-slate-500 truncate">{p.email}</p>
-                    <div className="text-xs text-slate-600 mt-1 flex flex-wrap gap-x-3">
+                    <p className="text-xs text-fg-subtle truncate">{p.email}</p>
+                    <div className="text-xs text-fg-muted mt-1 flex flex-wrap gap-x-3">
                       {p.age && <span>Age {p.age}</span>}
                       {(p.city || p.country) && (
                         <span>
@@ -230,7 +230,7 @@ export default function PersonManager() {
                       )}
                     </div>
                     {p.bio && (
-                      <p className="text-xs text-slate-600 mt-2 line-clamp-2">
+                      <p className="text-xs text-fg-muted mt-2 line-clamp-2">
                         {p.bio}
                       </p>
                     )}
@@ -238,13 +238,13 @@ export default function PersonManager() {
                   <div className="flex flex-col gap-1 shrink-0">
                     <button
                       onClick={() => startEdit(p)}
-                      className="text-xs px-3 py-1 rounded border border-slate-300 hover:bg-slate-50"
+                      className="text-xs px-3 py-1 rounded border border-border-strong text-fg hover:bg-surface-2"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(p.id)}
-                      className="text-xs px-3 py-1 rounded border border-red-300 text-red-600 hover:bg-red-50"
+                      className="text-xs px-3 py-1 rounded border border-danger text-danger hover:bg-danger-soft-bg"
                     >
                       Delete
                     </button>
@@ -274,7 +274,7 @@ function Input({
 }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-600 mb-1">
+      <label className="block text-xs font-medium text-fg-muted mb-1">
         {label}
       </label>
       <input
@@ -282,7 +282,7 @@ function Input({
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="w-full rounded-md border border-border bg-surface text-fg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
       />
     </div>
   );
