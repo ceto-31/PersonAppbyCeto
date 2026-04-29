@@ -102,11 +102,11 @@ export default function McpDemoLog() {
                 </time>
               </div>
               <p className="text-xs text-fg-muted mt-2">{e.result}</p>
-              {e.payload && Object.keys(e.payload as object).length > 0 && (
+              {!!e.payload && Object.keys(e.payload as object).length > 0 ? (
                 <pre className="text-xs text-fg-subtle bg-surface-2 border border-border rounded p-2 mt-2 overflow-x-auto">
                   {JSON.stringify(e.payload, null, 2)}
                 </pre>
-              )}
+              ) : null}
             </li>
           ))}
         </ul>
