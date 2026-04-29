@@ -4,6 +4,9 @@ A production-ready full-stack **Person Management App** with both a web UI **and
 
 > Live web UI + REST API + Prisma + Postgres + MCP server, all in one Next.js project, deployable to Vercel.
 
+- **Live app:** <https://person-appby-ceto.vercel.app>
+- **Source:** <https://github.com/ceto-31/PersonAppbyCeto>
+
 ---
 
 ## Features
