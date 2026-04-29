@@ -6,6 +6,8 @@ export default function NavBar() {
     { href: "/", label: "People" },
     { href: "/about", label: "About" },
     { href: "/database", label: "Database" },
+    { href: "/mcp-setup", label: "MCP Setup" },
+    { href: "/mcp-demo", label: "MCP Demo" },
     { href: "/github", label: "GitHub" },
   ];
   return (
