@@ -7,6 +7,7 @@ type Person = {
   firstName: string;
   lastName: string;
   email: string;
+  role: string | null;
   age: number | null;
   city: string | null;
   country: string | null;
@@ -19,6 +20,7 @@ const emptyForm = {
   firstName: "",
   lastName: "",
   email: "",
+  role: "",
   age: "",
   city: "",
   country: "",
@@ -50,6 +52,12 @@ export default function PersonManager() {
 
   useEffect(() => {
     load();
+    // Poll every 4s so MCP-driven changes appear without manual refresh.
+    const id = setInterval(() => {
+      // Avoid clobbering an in-progress edit.
+      if (!document.hidden) load();
+    }, 4000);
+    return () => clearInterval(id);
   }, []);
 
   function resetForm() {
@@ -89,6 +97,7 @@ export default function PersonManager() {
       firstName: p.firstName,
       lastName: p.lastName,
       email: p.email,
+      role: p.role ?? "",
       age: p.age?.toString() ?? "",
       city: p.city ?? "",
       country: p.country ?? "",
@@ -142,6 +151,11 @@ export default function PersonManager() {
             value={form.email}
             onChange={(v) => setForm({ ...form, email: v })}
             required
+          />
+          <Input
+            label="Role"
+            value={form.role}
+            onChange={(v) => setForm({ ...form, role: v })}
           />
           <div className="grid grid-cols-3 gap-3">
             <Input
@@ -234,6 +248,7 @@ export default function PersonManager() {
                     </h3>
                     <p className="text-xs text-fg-subtle truncate">{p.email}</p>
                     <div className="text-xs text-fg-muted mt-1 flex flex-wrap gap-x-3">
+                      {p.role && <span className="font-medium">{p.role}</span>}
                       {p.age && <span>Age {p.age}</span>}
                       {(p.city || p.country) && (
                         <span>
