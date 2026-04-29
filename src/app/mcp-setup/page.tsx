@@ -3,10 +3,13 @@ export const metadata = { title: "MCP Setup · Person App" };
 const CONFIG_SNIPPET = `{
   "mcpServers": {
     "person-app": {
-      "command": "npx",
-      "args": ["-y", "tsx", "C:/absolute/path/to/person-app/mcp-server/index.ts"],
+      "command": "node",
+      "args": [
+        "C:/absolute/path/to/person-app/node_modules/tsx/dist/cli.mjs",
+        "C:/absolute/path/to/person-app/mcp-server/index.ts"
+      ],
       "env": {
-        "DATABASE_URL": "postgresql://user:password@host/db?sslmode=require"
+        "DATABASE_URL": "postgresql://USER:PASSWORD@HOST.neon.tech/DBNAME?sslmode=require&channel_binding=require"
       }
     }
   }

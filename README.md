@@ -104,17 +104,46 @@ Add this to your `claude_desktop_config.json`:
 {
   "mcpServers": {
     "person-app": {
-      "command": "npx",
-      "args": ["-y", "tsx", "C:/absolute/path/to/person-app/mcp-server/index.ts"],
+      "command": "node",
+      "args": [
+        "C:/absolute/path/to/person-app/node_modules/tsx/dist/cli.mjs",
+        "C:/absolute/path/to/person-app/mcp-server/index.ts"
+      ],
       "env": {
-        "DATABASE_URL": "postgresql://user:password@host/db?sslmode=require"
+        "DATABASE_URL": "postgresql://USER:PASSWORD@HOST.neon.tech/DBNAME?sslmode=require&channel_binding=require"
       }
     }
   }
 }
 ```
 
+> **DATABASE_URL** must point to the same Postgres the deployed web app uses, so changes made by Claude appear instantly in the production dashboard. Hosted Postgres (Neon, Vercel Postgres, Supabase, Railway) all work; the example above is the Neon shape.
+>
+> A helper script is included &mdash; run `node scripts/install-mcp-config.js` to merge the entry into your existing config using `DATABASE_URL` from `.env`.
+
 Restart Claude Desktop. The `person-app` server will appear with the four CRUD tools. Step-by-step instructions are also in the app at **`/mcp-setup`**.
+
+---
+
+## Live demo with Claude Desktop
+
+The screenshots below show all four MCP tools driving the same Postgres the web UI uses. Every call also lands in the live event log at [`/mcp-demo`](https://person-appby-ceto.vercel.app/mcp-demo).
+
+### 1. Read &mdash; `get_all_people`
+
+![Claude listing all people via person-app](public/mcp-demo/01-read.png)
+
+### 2. Create &mdash; `create_person`
+
+![Claude creating Rodwin Vic via person-app](public/mcp-demo/02-create.png)
+
+### 3. Update &mdash; `update_person`
+
+![Claude updating Rodwin Vic’s role](public/mcp-demo/03-update.png)
+
+### 4. Delete &mdash; `delete_person`
+
+![Claude deleting four records via person-app](public/mcp-demo/04-delete.png)
 
 ---
 
